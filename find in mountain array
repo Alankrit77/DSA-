@@ -1,0 +1,69 @@
+/**
+ * // This is the MountainArray's API interface.
+ * // You should not implement it, or speculate about its implementation
+ * class MountainArray {
+ *   public:
+ *     int get(int index);
+ *     int length();
+ * };
+ */
+
+class Solution {
+public:
+   
+       int peak(MountainArray &arr) {
+        int s =0;
+        int e = arr.length()-1;
+        while(s<e){
+            int mid = (s+e)/2;
+            if(arr.get(mid)<arr.get(mid+1)){
+                s = mid + 1;
+            }
+            else {
+                e = mid;
+            }
+        }
+        return e;
+    }
+       int binarysearchL(MountainArray &arr,int s,int e, int k) {
+        while(s<=e){
+            int mid = s + (e-s)/2;
+            if(arr.get(mid)==k){
+                return mid;
+            }
+            else if(arr.get(mid)>k){
+              e = mid-1;
+            }
+            else {
+                s = mid + 1;
+            }
+            
+        }
+        return -1;
+    }
+       bool binarysearchR(MountainArray &arr,int s,int e, int k) {
+        while(s<=e){
+            int mid = s + (e-s)/2;
+            if(arr.get(mid)==k){
+                return mid;
+            }
+            else if(arr.get(mid)>k){
+                 s = mid + 1;
+            }
+            else {
+                e = mid-1;
+            }
+            
+        }
+        return -1;
+    }
+    
+    int findInMountainArray(int target, MountainArray &mountainArr) {
+       int maxxi = peak(mountainArr);
+       int bs1=binarysearchL(mountainArr,0,maxxi-1,target);
+        int bs2=binarysearchR(mountainArr,maxxi,mountainArr.length()-1,target);
+        if(bs1!=-1) return bs1;
+        else return bs2;
+    
+    }
+};
